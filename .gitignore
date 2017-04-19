@@ -1,0 +1,24 @@
+distribution
+
+# Node.js
+node_modules
+*.seed
+*.log
+*.out
+*.pid
+npm-debug.log
+.node_history
+
+# OS / Editors
+*~
+*#
+.DS_Store
+.env
+.netbeans
+nbproject
+.idea
+*.swp
+*.swo
+*.sublime-*
+*.tgz
+yarn.lock

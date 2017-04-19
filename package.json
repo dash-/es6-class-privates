@@ -1,0 +1,36 @@
+{
+  "name": "es6-class-privates",
+  "version": "0.0.1",
+  "description": "Provides a method of converting underscored pseudo-private class members into truly private class members",
+  "main": "./distribution/index.js",
+  "scripts": {
+    "lint": "eslint . && echo 'Lint finished...\n'",
+    "pretest": "npm run -s lint",
+    "test": "jest",
+    "update": "updtr",
+    "build": "babel source --presets babel-preset-es2015 --out-dir distribution",
+    "prepublish": "npm run build"
+  },
+  "keywords": [
+    "es6",
+    "class",
+    "private",
+    "protected",
+    "properties",
+    "methods",
+    "members"
+  ],
+  "author": "David Ash",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-cli": "^6.22.2",
+    "babel-preset-es2015": "^6.22.0",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.10.3",
+    "jest": "^19.0.2",
+    "updtr": "0.2.1"
+  }
+}
