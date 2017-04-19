@@ -5,7 +5,7 @@ const classPrivates = require('..');
 const testClass = function (my) {
   class Test {
     constructor() {
-      my.bindTo(this);
+      my.bindAllTo(this);
     }
     /* eslint-disable class-methods-use-this */
     _privateMethod() { }
@@ -13,12 +13,10 @@ const testClass = function (my) {
     publicMethod() { }
     /* eslint-enable class-methods-use-this */
   }
-  my.restrict(Test);
-
-  return Test;
+  return my.restrict(Test);
 };
 
-describe('Privates', () => {
+describe('Strictly private', () => {
   it('should make underscored functions private', (done) => {
     const my = classPrivates.makeMine();
     const Test = testClass(my);
@@ -42,7 +40,7 @@ describe('Privates', () => {
     const my = classPrivates.makeMine();
     class Test {
       constructor() {
-        my.bindTo(this);
+        my.bindAllTo(this);
         my(this).privateVariable = 'test';
       }
       _privateMethod() {
@@ -52,12 +50,18 @@ describe('Privates', () => {
         return my(this).privateMethod();
       }
     }
-    my.restrict(Test);
+    const TestClass = my.restrict(Test);
 
-    const test = new Test();
+    const test = new TestClass();
 
     expect(test.publicMethod()).toBe('test'); // eslint-disable-line no-undef
 
     done();
   });
+});
+
+describe('Running protection', () => {
+});
+
+describe('Strange configurations', () => {
 });

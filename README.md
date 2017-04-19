@@ -23,10 +23,11 @@ npm install --save es6-class-privates
 ```
 const my = require('es6-class-privates').makeMine();
 
-class SomeClass {
+class HelloWorld {
 	constructor() {
+		my.bindAllTo(this);
 		my(this).privateProperty = 'Hello world';
-		my(SomeClass).privateMethod();
+		my(this).privateMethod();
 	}
 
 	_privateMethod() {
@@ -34,5 +35,5 @@ class SomeClass {
 	}
 }
 
-module.exports = my.restrict(SomeClass);
+module.exports = my.restrict(HelloWorld);
 ```

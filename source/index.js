@@ -1,6 +1,6 @@
 'use strict';
 
-const config = {
+let config = {
   privatePrefix: '_',
   protectedPrefix: '$',
 };
@@ -21,10 +21,12 @@ const restrictTo = accessor => (
         delete constructor.prototype[name];
       }
     });
+
+    return constructor;
   }
 );
 
-const bindTo = accessor => (
+const bindAllTo = accessor => (
   (instance) => {
     const constructor = Object.getPrototypeOf(instance).constructor;
     const propMap = accessor(constructor);
@@ -37,6 +39,8 @@ const bindTo = accessor => (
 
       accessor(instance)[name] = prop.bind(instance);
     });
+
+    return instance;
   }
 );
 
@@ -49,10 +53,50 @@ const makeMine = () => {
   };
 
   accessor.restrict = restrictTo(accessor);
-  accessor.bindTo = bindTo(accessor);
+  accessor.bindAllTo = bindAllTo(accessor);
   return accessor;
+};
+
+const findConfigErrors = (newConfig) => {
+  const validPrefixTypes = ['string', 'undefined'];
+  const prefixProps = ['privatePrefix', 'protectedPrefix'];
+  const errors = [];
+
+  // Config must be a valid object
+  if (typeof newConfig !== 'object') {
+    errors.push('Configuration must be an object');
+    return errors;
+  }
+
+  prefixProps.forEach((prop) => {
+    // Check prefix types
+    if (!validPrefixTypes.includes(typeof newConfig[prop])) {
+      errors.push(`${prop} must be a string if provided`);
+    }
+
+    // Prefixes may not be blank strings
+    if (newConfig[prop] === '') {
+      errors.push(`Invalid prefix for ${prop}: Prefix may not be a blank string`);
+    }
+  });
+
+  // Prefixes may not be the same
+  const priv = newConfig.privatePrefix;
+  const prot = newConfig.protectedPrefix;
+  if (priv && prot && priv === prot) {
+    errors.push('Invalid prefixes: Prefixes may not be the same');
+  }
+
+  return `Invalid configuration - ${errors.join('; ')}.`;
+};
+
+const configure = (newConfig) => {
+  const errors = findConfigErrors(newConfig);
+  if (errors.length > 0) throw new Error(errors);
+  config = Object.assign({}, this.config, newConfig);
 };
 
 module.exports = {
   makeMine,
+  configure,
 };
