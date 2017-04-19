@@ -35,17 +35,17 @@ class (which violates encapsulation), the dependent code will break when the
 private/protected class internals are removed, renamed, or otherwise change
 behavior. This practice therefore leads to fragility, and should be discouraged.
 
-*Eric Elliott*: "Underscores are a bad idea. Newbies don't know what they mean,
+**Eric Elliott**: "Underscores are a bad idea. Newbies don't know what they mean,
 and advanced users think they don't apply to them. Changes break things."
 [(1)](https://twitter.com/_ericelliott/status/854532899239886848)
 
-*Joe Lencioni from Airbnb* (on why underscored pseudo-privates are bad): "They
+**Joe Lencioni from Airbnb** (on why underscored pseudo-privates are bad): "They
 give people a false sense of 'private'ness that could lead to bugs."
 [(2)](https://github.com/airbnb/javascript/issues/1024)
 
-*Jordan Harband from Airbnb* (same discussion): "Private means inaccessible. Your
+**Jordan Harband from Airbnb** (same discussion): "Private means inaccessible. Your
 intent to privacy is irrelevant if the value is reachable, ie public. For
-example, *npm broke node once by removing an underscore-prefixed variable*."
+example, **npm broke node once by removing an underscore-prefixed variable**."
 [(2)](https://github.com/airbnb/javascript/issues/1024)
 
 Unfortunately, once you've got a codebase filled with underscored pseudo-privates,
@@ -90,18 +90,38 @@ module.exports = my.restrict(HelloWorld);
 
 ## API
 
-### `makeMine()`
+### `makeMine(config : Object)`
 
 Produces a WeakMap-based method that returns a map for the Object given.
+If an argument is provided for the `config` parameter, this will be merged with
+the global configuration to produce a local configuration specific to this
+instance of `my`.  See the "Configuration options" section below for more
+information on the `config` parameter.
 
-*Example:* See "General Use" section, above.
+Throws Error when `config` is invalid.
 
-### `configure(config : Object)
+
+#### Example
+For a simple example, see "General Use" section, above.  A more advanced example
+follows:
+
+```
+const my = require('es6-class-privates').makeMine({
+  protectedPrefix: '_',
+  privatePrefix: '__',
+  dropPrefix: false,
+});
+```
+
+
+### `configure(config : Object)`
 
 Allows global reconfiguration of this package's behavior.  All configuration
 options are optional, and excluded properties will not modify the configuration.
 All prefixes must be non-zero-length strings or `undefined`.  Prefixes cannot
 match.
+
+Throws Error when `config` is invalid.
 
 
 #### Configuration options
