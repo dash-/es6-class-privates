@@ -1,6 +1,6 @@
 {
   "name": "es6-class-privates",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Provides a method of converting underscored pseudo-private class members into truly private class members",
   "main": "./distribution/index.js",
   "scripts": {
