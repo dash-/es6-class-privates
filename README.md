@@ -151,7 +151,7 @@ require('es6-class-privates').configure({
 
 ## Run tests
 
-``
+```
 git clone git@github.com:dash-/es6-class-privates.git
 cd es6-class-privates
 npm test
